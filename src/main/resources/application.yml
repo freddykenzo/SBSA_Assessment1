@@ -10,15 +10,17 @@ spring:
     username: sa
     password: sa
     driver-class-name: org.h2.Driver
+  h2:
+    console:
+      enabled: true
   jpa:
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.H2Dialect
-        hbm2ddl:
-          auto: create-drop
-        show_sql: false
-
-management:
+    database: h2
+    open-in-view: false
+    hibernate:
+      ddl-auto: none
+    database-platform: org.hibernate.dialect.H2Dialect
+  flyway:
+    enabled: true
   endpoints:
     web:
       exposure:
@@ -36,3 +38,4 @@ logging:
   file:
     path: logs
     name: ${logging.file.path}/assessment1.log
+
