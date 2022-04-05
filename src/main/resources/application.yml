@@ -39,3 +39,6 @@ logging:
     path: logs
     name: ${logging.file.path}/assessment1.log
 
+app:
+#  pathToUserCsvFile: classpath:data/Users.csv
+  pathToUserCsvFile: C:\Users\fsopmboudjieka\Documents\Study\Users2.csv

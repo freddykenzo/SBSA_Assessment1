@@ -17,3 +17,6 @@ spring:
     database-platform: org.hibernate.dialect.H2Dialect
   flyway:
     enabled: true
+
+app:
+  pathToUserCsvFile: classpath:data/Users.csv

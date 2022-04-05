@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import za.co.standardbank.assessment1.domain.constant.RequestStatus;
 
 import javax.persistence.*;
 
@@ -17,22 +16,18 @@ import javax.persistence.*;
 public class ScheduledAction {
     @Id
     @Column
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Enumerated(EnumType.STRING)
+    private za.co.standardbank.assessment1.domain.constant.ScheduledAction id;
 
-    @Column(name = "number_of_attempts")
-    private Integer numberOfAttempts;
+    @Column(name = "max_attempt")
+    private Integer maxAttempt;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "action")
-    private RetryableAction action;
+    @Column(name = "frequency")
+    private String frequency;
 
-    @Column(name = "request")
-    private String request;
+    @Column(name = "description")
+    private String description;
 
-    @Column(name = "entityId")
-    private Long entityId;
-
-    @Column(name = "status")
-    private RequestStatus status;
+    @Column(name = "active")
+    private Boolean active;
 }

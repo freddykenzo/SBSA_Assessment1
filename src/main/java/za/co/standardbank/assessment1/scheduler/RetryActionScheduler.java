@@ -8,8 +8,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 import org.springframework.scheduling.support.CronTrigger;
-import za.co.standardbank.assessment1.method.ProcessRetryableAction;
-import za.co.standardbank.assessment1.persistence.repositories.RetryableActionRepository;
+import za.co.standardbank.assessment1.method.ProcessScheduledAction;
+import za.co.standardbank.assessment1.persistence.repositories.ScheduledActionRepository;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -20,9 +20,9 @@ import java.util.concurrent.Executors;
 @AllArgsConstructor
 public class RetryActionScheduler implements SchedulingConfigurer {
 
-    private final RetryableActionRepository retryableActionRepository;
+    private final ScheduledActionRepository scheduledActionRepository;
 
-    private final ProcessRetryableAction processRetryableAction;
+    private final ProcessScheduledAction processScheduledAction;
 
     @Bean
     public Executor taskExecutor() {
@@ -31,12 +31,12 @@ public class RetryActionScheduler implements SchedulingConfigurer {
 
     @Override
     public void configureTasks(final ScheduledTaskRegistrar taskRegistrar) {
-        retryableActionRepository.findByActiveIsTrue()
+        scheduledActionRepository.findByActiveIsTrue()
                 .forEach(action -> {
                     log.debug("Creating scheduler for {}", action);
                     taskRegistrar.setScheduler(taskExecutor());
                     taskRegistrar.addTriggerTask(
-                            () -> processRetryableAction.execute(action),
+                            () -> processScheduledAction.execute(action),
                             context -> {
                                 CronTrigger crontrigger = new CronTrigger(action.getFrequency());
                                 return crontrigger.nextExecutionTime(context);
